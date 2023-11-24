@@ -1,0 +1,656 @@
+main {
+  margin-top: 0px;
+}
+
+.aboutArticle {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 5%;
+  margin-top: 5%;
+}
+
+.headline h1 {
+  font-size: 2rem;
+  font-weight: 300;
+  text-align: center;
+  line-height: 1;
+  margin-bottom: 5%;
+  color: rgb(44, 22, 7);
+}
+
+.location {
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+.location p {
+  text-align: center;
+  font-weight: 500;
+}
+
+.aboutContent {
+  display: flow-root;
+  margin-top: 5%;
+}
+
+#charlie {
+  float: right;
+  box-shadow: 2px 2px 15px 2px rgba(0, 0, 0, 0.2);
+  margin: 0 4% 2% 2%;
+  width: 40%;
+  height: auto;
+  max-width: 534px;
+  max-height: 800px;
+}
+
+#interior {
+  float: left;
+  box-shadow: 2px 2px 15px 2px rgba(0, 0, 0, 0.2);
+  margin: 0 4% 2% 2%;
+  width: 50%;
+  height: auto;
+  max-width: 534px;
+  max-height: 800px;
+}
+
+.aboutContent p {
+  margin-right: 4%;
+  margin-left: 4%;
+  margin-bottom: 3%;
+  font-size: 1rem;
+}
+
+/*----------------------------------------------------*/
+
+main {
+  margin-top: 0px;
+}
+
+.aboutContent p {
+  font-size: 1rem;
+}
+
+.aboutArticle {
+  display: flex;
+  width: 100vw;
+}
+
+.aboutContent {
+  display: grid;
+  grid-template-areas:
+    "para1 photo1"
+    "para2 para2"
+    "photo2 para3";
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  border: 2px solid red;
+}
+
+#charlie {
+  box-shadow: 2px 2px 15px 2px rgba(0, 0, 0, 0.2);
+  width: 200px;
+  height: auto;
+  max-width: 534px;
+  max-height: 800px;
+  grid-area: photo1;
+  float: right;
+}
+
+#interior {
+  box-shadow: 2px 2px 15px 2px rgba(0, 0, 0, 0.2);
+  width: 200px;
+  height: auto;
+  max-width: 534px;
+  max-height: 800px;
+  grid-area: photo2;
+}
+
+#para1 {
+  grid-area: para1;
+}
+
+#para2 {
+  grid-area: para2;
+}
+
+#para3 {
+  grid-area: para3;
+}
+
+/*--------------------------------------------------*/
+
+import React, { useState } from 'react';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import dateIcon from '../../icons_assets/date.png';
+import timeIcon from '../../icons_assets/time.png';
+import celebrateIcon from '../../icons_assets/celebrateIcon.png';
+import guestsIcon from '../../icons_assets/guests.png';
+import carrotDown from '../../icons_assets/carrotDown.png';
+
+const ReserveForm = ({ dateData, timeData }) => {
+  const [guestsDropdownOpen, setGuestsDropdownOpen] = useState(false);
+  const [dateDropdownOpen, setDateDropdownOpen] = useState(false);
+  const [timeDropdownOpen, setTimeDropdownOpen] = useState(false);
+  const [occasionDropdownOpen, setOccasionDropdownOpen] = useState(false);
+
+  const validationSchema = Yup.object({
+    name: Yup.string().required().max(50),
+    email: Yup.string()
+      .max(100)
+      .email()
+      .required()
+      .test('period', 'Invalid Email', (value) => {
+        return /\./.test(value);
+      }),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      email: '',
+      guests: 'Number of Guests',
+      date: 'Date',
+      time: 'Time',
+      occasion: 'Occasion',
+    },
+    validationSchema,
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  });
+
+  const toggleGuestsDropdown = () => {
+    setGuestsDropdownOpen(!guestsDropdownOpen);
+  };
+
+  const toggleDateDropdown = () => {
+    setDateDropdownOpen(!dateDropdownOpen);
+  };
+
+  const toggleTimeDropdown = () => {
+    setTimeDropdownOpen(!timeDropdownOpen);
+  };
+
+  const toggleOccasionDropdown = () => {
+    setOccasionDropdownOpen(!occasionDropdownOpen);
+  };
+
+  const handleSelection = (item, setFunction, fieldName) => {
+    setFunction(item);
+    formik.setFieldValue(fieldName, item);
+  };
+
+  const occasions = [
+    'Birthday',
+    'Graduation',
+    'Retirement',
+    'Anniversary',
+    'Promotion'
+  ]
+
+  const guestsData = [
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6'
+  ]
+
+  return (
+    <form className='reserveForm' onSubmit={formik.handleSubmit}>
+      <div className='formInput inputNameContainer'>
+        <input
+          type='text'
+          id='name'
+          name='name'
+          placeholder='name (required)'
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.name}
+        />
+        {formik.touched.name && formik.errors.name ? <div className='error'>{''}</div> : null}
+      </div>
+      <div className='formInput inputEmailContainer'>
+        <input
+          type='email'
+          id='email'
+          name='email'
+          placeholder='email'
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.email}
+        />
+        {formik.touched.email && formik.errors.email ? <div className='error'>{''}</div> : null}
+      </div>
+      <div className='formInput inputGuestsContainer'>
+        <button onClick={toggleGuestsDropdown}>
+          <img className='timeDateOccasionIcons' src={guestsIcon} />
+          <p>{formik.values.guests}</p>
+          <img
+            className={`carrotDownIcon ${guestsDropdownOpen ? 'carrotFlip' : ''}`}
+            src={carrotDown}
+          />
+        </button>
+        <div className={`guestsDropdownOff ${guestsDropdownOpen ? 'guestsDropdownOn' : ''}`}>
+          <ul>
+            {guestsData.map((item) => (
+              <li key={item}>
+                <button onClick={() => handleSelection(item, setGuestsDropdownOpen, 'guests')}>
+                  {item}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <div className='formInput inputDateContainer'>
+        <button onClick={toggleDateDropdown}>
+          <img className='timeDateOccasionIcons' src={dateIcon} />
+          <p>{formik.values.date}</p>
+          <img className={`carrotDownIcon ${dateDropdownOpen ? 'carrotFlip' : ''}`} src={carrotDown} />
+        </button>
+        <div className={`dateDropdownOff ${dateDropdownOpen ? 'dateDropdownOn' : ''}`}>
+          <ul>
+            {dateData.map((item) => (
+              <li key={item.date}>
+                <button onClick={() => handleSelection(item.date, setDateDropdownOpen, 'date')}>
+                  {item.date}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <div className='formInput inputTimeContainer'>
+        <button onClick={toggleTimeDropdown}>
+          <img className='timeDateOccasionIcons' src={timeIcon} />
+          <p>{formik.values.time}</p>
+          <img className={`carrotDownIcon ${timeDropdownOpen ? 'carrotFlip' : ''}`} src={carrotDown} />
+        </button>
+        <div className={`timeDropdownOff ${timeDropdownOpen ? 'timeDropdownOn' : ''}`}>
+          <ul>
+            {timeData.map((item) => (
+              <li key={item.time}>
+                <button onClick={() => handleSelection(item.time, setTimeDropdownOpen, 'time')}>
+                  {item.time}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <div className='formInput inputOccasionContainer'>
+        <button onClick={toggleOccasionDropdown}>
+          <img className='timeDateOccasionIcons' src={celebrateIcon} />
+          <p>{formik.values.occasion}</p>
+          <img
+            className={`carrotDownIcon ${occasionDropdownOpen ? 'carrotFlip' : ''}`}
+            src={carrotDown}
+          />
+        </button>
+        <div
+          className={`occasionDropdownOff ${occasionDropdownOpen ? 'occasionDropdownOn' : ''}`}
+        >
+          <ul>
+            {occasions.map((item) => (
+              <li key={item}>
+                <button onClick={() => handleSelection(item, setOccasionDropdownOpen, 'occasion')}>
+                  {item}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <div className='formInput formSubmitButton'>
+        <button type='submit'>Book</button>
+      </div>
+    </form>
+  );
+};
+
+export default ReserveForm;
+
+
+/*----------------------------*/
+
+.reservePage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5%;
+}
+
+.reserveForm {
+  display: flex;
+  margin-left: 2%;
+  margin-right: 2%;
+  margin-top: 2%;
+  width: 100%;
+  padding: 50px;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.reserveForm input {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border-radius: 0px;
+  border: none;
+  border-bottom: 2px solid black;
+  outline: none;
+  width: 100%;
+}
+
+.reserveForm button {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: none;
+  outline: none;
+  background-color: white;
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid black;
+}
+
+.formInput {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 6%;
+}
+
+.formInput p {
+  align-self: center;
+  margin-left: 5%;
+}
+
+.timeDateOccasionIcons {
+  height: 35px;
+}
+
+.carrotDownIcon {
+  height: 35px;
+  transition: transform .3s ease;
+}
+
+.inputGuestsContainer {
+  position: relative;
+  margin-bottom: 10%;
+  display: flex;
+  justify-content: center;
+}
+
+.guestsDropdownOff {
+  display: none;
+}
+
+.guestsDropdownOn {
+  display: flex;
+  position: absolute;
+  top: 100%;
+  background-color: white;
+  z-index: 1;
+  box-shadow: 2px 2px 15px 2px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  justify-content: center;
+}
+
+.guestsDropdownOn ul {
+  display: block;
+  list-style-type: none;
+  margin: 5%;
+}
+
+.inputDateContainer {
+  position: relative;
+  margin-bottom: 10%;
+}
+
+.dateDropdownOff {
+  display: none;
+}
+
+.dateDropdownOn {
+  display: flex;
+  position: absolute;
+  top: 100%;
+  background-color: white;
+  z-index: 1;
+  box-shadow: 2px 2px 15px 2px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  justify-content: center;
+}
+
+.dateDropdownOn ul {
+  display: block;
+  list-style-type: none;
+  margin: 5%;
+}
+
+.inputTimeContainer {
+  position: relative;
+  margin-bottom: 10%;
+}
+
+.timeDropdownOff {
+  display: none;
+}
+
+.timeDropdownOn {
+  display: flex;
+  position: absolute;
+  top: 100%;
+  background-color: white;
+  z-index: 1;
+  box-shadow: 2px 2px 15px 2px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  justify-content: center;
+}
+
+.inputTimeContainer ul {
+  display: block;
+  list-style-type: none;
+}
+
+.inputOccasionContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.occasionDropdownOff {
+  display: none;
+}
+
+.occasionDropdownOn {
+  display: flex;
+  position: absolute;
+  top: 100%;
+  background-color: white;
+  z-index: 1;
+  box-shadow: 2px 2px 15px 2px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  justify-content: center;
+}
+
+.inputOccasionContainer ul {
+  display: block;
+  list-style-type: none;
+  margin: 5%;
+  width: 100%;
+}
+
+.inputOccasionContainer + button {
+  width: 100%;
+}
+
+.carrotFlip {
+  transform: rotate(180deg);
+  transition: transform .3s ease;
+}
+
+.formSubmitButton {
+  margin-top: 2%;
+}
+
+.formSubmitButton button {
+  border: 2px solid black;
+  border-radius: 5px;
+  color: black;
+  justify-content: center;
+}
+
+/*------------------------------------------------------------------*/
+
+import React, { useState } from 'react';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import ReserveDrop from './ReserveDrop';
+import dateIcon from '../../icons_assets/date.png';
+import timeIcon from '../../icons_assets/time.png';
+import celebrateIcon from '../../icons_assets/celebrateIcon.png';
+import guestsIcon from '../../icons_assets/guests.png';
+
+const ReserveForm = ({ dateData, timeData }) => {
+  const [guestsDropdownOpen, setGuestsDropdownOpen] = useState(false);
+  const [dateDropdownOpen, setDateDropdownOpen] = useState(false);
+  const [timeDropdownOpen, setTimeDropdownOpen] = useState(false);
+  const [occasionDropdownOpen, setOccasionDropdownOpen] = useState(false);
+
+  const handleSelection = (item, setter, fieldName) => {
+    setter(item);
+    formik.setFieldValue(fieldName, item);
+  };
+
+  const validationSchema = Yup.object({
+    name: Yup.string().required().max(50),
+    email: Yup.string()
+      .max(100)
+      .email()
+      .required()
+      .test('period', 'Invalid Email', (value) => {
+        return /\./.test(value);
+      }),
+    guests: Yup.string().required(),
+    date: Yup.string().required(),
+    time: Yup.string().required()
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      email: '',
+      guests: 'Number of Guests',
+      date: 'Date',
+      time: 'Time',
+      occasion: 'Special Occasion?',
+    },
+    validationSchema,
+    onSubmit: (values) => {
+      console.log(values);
+      formik.resetForm();
+    },
+  });
+
+
+
+  const occasions = [
+    'N/A',
+    'Birthday',
+    'Graduation',
+    'Retirement',
+    'Anniversary',
+    'Promotion'
+  ]
+
+  const guestsData = [
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6'
+  ]
+
+  return (
+    <form className='reserveForm' onSubmit={formik.handleSubmit}>
+      <div className='formInput inputNameContainer'>
+        <input
+          type='text'
+          id='name'
+          name='name'
+          placeholder='Name (required)'
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.name}
+          tabIndex={1}
+        />
+      </div>
+      <div className='formInput inputEmailContainer'>
+        <input
+          type='email'
+          id='email'
+          name='email'
+          placeholder='Confirmation Email (required)'
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.email}
+          tabIndex={2}
+        />
+      </div>
+
+      <ReserveDrop
+        icon={guestsIcon}
+        value={formik.values.guests}
+        isOpen={guestsDropdownOpen}
+        toggleDropdown={() => setGuestsDropdownOpen(!guestsDropdownOpen)}
+        closeDropdown={() => setGuestsDropdownOpen(false)}
+        data={guestsData}
+        onSelect={(item) => handleSelection(item, setGuestsDropdownOpen, 'guests')}
+        beenChosen={formik.values.guests === 'Number of Guests'}
+      />
+      <ReserveDrop
+        icon={dateIcon}
+        value={formik.values.date}
+        isOpen={dateDropdownOpen}
+        toggleDropdown={() => setDateDropdownOpen(!dateDropdownOpen)}
+        closeDropdown={() => setDateDropdownOpen(false)}
+        data={dateData.map((item) => item.date)}
+        onSelect={(item) => handleSelection(item, setDateDropdownOpen, 'date')}
+        beenChosen={formik.values.date === 'Date'}
+      />
+      <ReserveDrop
+        icon={timeIcon}
+        value={formik.values.time}
+        isOpen={timeDropdownOpen}
+        toggleDropdown={() => setTimeDropdownOpen(!timeDropdownOpen)}
+        closeDropdown={() => setTimeDropdownOpen(false)}
+        data={timeData.map((item) => item.time)}
+        onSelect={(item) => handleSelection(item, setTimeDropdownOpen, 'time')}
+        beenChosen={formik.values.time === 'Time'}
+      />
+      <ReserveDrop
+        icon={celebrateIcon}
+        value={formik.values.occasion}
+        isOpen={occasionDropdownOpen}
+        toggleDropdown={() => setOccasionDropdownOpen(!occasionDropdownOpen)}
+        closeDropdown={() => setOccasionDropdownOpen(false)}
+        data={occasions}
+        onSelect={(item) => handleSelection(item, setOccasionDropdownOpen, 'occasion')}
+      />
+
+      <div className='formInput formSubmitButton'>
+        <button disabled={!validationSchema.isValid} tabIndex={4} type='submit'>Book</button>
+      </div>
+    </form>
+  );
+};
+
+export default ReserveForm;
