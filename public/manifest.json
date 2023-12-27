@@ -1,19 +1,89 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Scarlett",
+  "name": "Scarlett",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "https://i.ibb.co/S5bC72J/16x16.png",
+      "type": "image/png",
+      "sizes": "16x16"
     },
     {
-      "src": "logo192.png",
+      "src": "https://i.ibb.co/wRHmJLt/24x24.png",
+      "type": "image/png",
+      "sizes": "24x24"
+    },
+    {
+      "src": "https://i.ibb.co/T2FfYdx/32x32.png",
+      "type": "image/png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "https://i.ibb.co/zScvbk6/57x57.png",
+      "type": "image/png",
+      "sizes": "57x57"
+    },
+    {
+      "src": "https://i.ibb.co/YDxqQ9H/60x60.png",
+      "type": "image/png",
+      "sizes": "60x60"
+    },
+    {
+      "src": "https://i.ibb.co/Bq4j1zQ/64x64.png",
+      "type": "image/png",
+      "sizes": "64x64"
+    },
+    {
+      "src": "https://i.ibb.co/Ct5Td3Z/72x72.png",
+      "type": "image/png",
+      "sizes": "72x72"
+    },
+    {
+      "src": "https://i.ibb.co/F026486/76x76.png",
+      "type": "image/png",
+      "sizes": "76x76"
+    },
+    {
+      "src": "https://i.ibb.co/4Rndx0y/96x96.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "https://i.ibb.co/qNb18SR/114x114.png",
+      "type": "image/png",
+      "sizes": "114x114"
+    },
+    {
+      "src": "https://i.ibb.co/5xNt4sF/120x120.png",
+      "type": "image/png",
+      "sizes": "120x120"
+    },
+    {
+      "src": "https://i.ibb.co/7zf3Vj9/144x144.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    },
+    {
+      "src": "https://i.ibb.co/42BNNt8/152x152.png",
+      "type": "image/png",
+      "sizes": "152x152"
+    },
+    {
+      "src": "https://i.ibb.co/wc3nr0T/180x180.png",
+      "type": "image/png",
+      "sizes": "180x180"
+    },
+    {
+      "src": "https://i.ibb.co/4V7w0b4/192x192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "logo512.png",
+      "src": "https://i.ibb.co/TRTMC5t/194x194.png",
+      "type": "image/png",
+      "sizes": "194x194"
+    },
+    {
+      "src": "https://i.ibb.co/82yT8Kk/512x512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
